@@ -231,6 +231,7 @@
     flex-direction: column;
     gap: 2px;
 }
+
 .track-tag {
     display: inline-block;
     background: var(--glass);
@@ -496,7 +497,18 @@ body.focus-mode .player-bar {
 }
 
 
+/* Hide date and other UI clutter when focus mode is active */
+body.focus-mode .song-date, 
+body.focus-mode .recorded-at,
+body.focus-mode #view-title,
+body.focus-mode .search-container {
+    display: none !important;
+}
 
+/* If you want the date to specifically disappear only on the cards */
+.focus-mode .song-card .song-info span {
+    display: none;
+}
 /* Ensure the logo container can hold the cursor at the end */
 #nav-logo {
     display: inline-block;
@@ -517,9 +529,58 @@ body.focus-mode .player-bar {
     from, to { opacity: 0; }
     50% { opacity: 1; }
 }
+/* Video Badge on the Cover */
+.video-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Play Video Button Style */
+.vid-trigger {
+    background: var(--accent) !important;
+    color: #000 !important;
+}
+
+.vid-trigger:hover {
+    transform: scale(1.1);
+    background: #fff !important;
+}
+.sort-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 800;
+    transition: 0.2s;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.sort-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+}
+
+#sort-arrow {
+    color: var(--accent); /* If you have an accent color defined */
+    margin-right: 4px;
+}
     </style>
 </head>
 <body>
+    <div id="focus-aura" class="focus-aura"></div>
 
 <nav>
     <div id="nav-logo" class="nav-logo" style="margin-bottom: 20px;"></div>
@@ -539,10 +600,14 @@ body.focus-mode .player-bar {
         <li id="li-collections" onclick="showView('collections')">collections</li>
         <li id="nav-upload" class="hidden" onclick="toggleUploadCard()">new upload</li>
     </ul>
+    
     <div style="margin-bottom: 20px; padding-top: 20px; opacity: 0.3; font-family: monospace; font-size: 0.6rem;">
     <div>[SPACE] PLAY/PAUSE</div>
     <div>[F] FOCUS MODE</div>
 </div>
+<button id="sort-btn" class="nav-btn" style="margin-bottom: 10px;" onclick="toggleLocalSort()">
+        <span id="sort-arrow">↓</span> sort by date
+    </button>
     <div id="auth-controls"></div>
 </nav>
 
@@ -558,7 +623,8 @@ body.focus-mode .player-bar {
             <span style="font-size: 0.7rem; color: #4ade80;">● studio online</span>
         </div>
     </header>
-    <section id="view-collections" class="view-section">
+    
+<section id="view-collections" class="view-section">
     <div class="collection-grid">
         <div class="crate-card" onclick="filterByTag('master')">
             <div class="crate-stack"></div>
@@ -566,42 +632,47 @@ body.focus-mode .player-bar {
                 <span class="crate-number">01</span>
                 <h3>final masters</h3>
                 <p>high-fidelity studio exports</p>
-                <div class="crate-meta">48khz / 24-bit • lossless</div>
+                <div class="crate-meta">lossless • archive</div>
             </div>
         </div>
 
-        <div class="crate-card" onclick="filterByTag('demo')">
-            <div class="crate-stack" style="background: linear-gradient(90deg, #2a1a1a, #050505);"></div>
+        <div class="crate-card" onclick="filterByTag('video')">
+            <div class="crate-stack" style="background: linear-gradient(90deg, #ff4b4b, #050505);"></div>
             <div class="crate-content">
                 <span class="crate-number">02</span>
-                <h3>raw demos</h3>
-                <p>unfinished ideas & scratch vocals</p>
-                <div class="crate-meta">work in progress</div>
+                <h3>video snippets</h3>
+                <p>visual previews & studio b-roll</p>
+                <div class="crate-meta">mp4 • cinema mode</div>
             </div>
         </div>
 
-        <div class="crate-card" onclick="filterByTag('feat')">
-            <div class="crate-stack" style="background: linear-gradient(90deg, #1a2a2a, #050505);"></div>
+        <div class="crate-card" onclick="filterByTag('open')">
+            <div class="crate-stack" style="background: linear-gradient(90deg, #71717a, #050505);"></div>
             <div class="crate-content">
                 <span class="crate-number">03</span>
-                <h3>collaborations</h3>
-                <p>sessions with external artists</p>
-                <div class="crate-meta">joint ventures</div>
+                <h3>opens</h3>
+                <p>get started on a song with luviez</p>
+                <div class="crate-meta">mp3 • free to download</div>
             </div>
         </div>
     </div>
 </section>
 
-    <div id="stats-dash" class="stats-grid hidden">
+   
+
+    <section id="view-library" class="view-section active">
+         <div id="stats-dash" class="stats-grid hidden">
         <div class="stat-card"><span>tracks</span><h3 id="stat-count">0</h3></div>
         <div class="stat-card"><span>storage</span><h3>cloud</h3></div>
         <div class="stat-card"><span>access</span><h3>admin</h3></div>
     </div>
-
-    <section id="view-library" class="view-section active">
+    
         <div class="search-container">
     <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16a6.471 6.471 0 0 0 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
     <input type="text" id="search-input" placeholder="search tracks, features, or sessions..." oninput="handleSearch()">
+</div>
+    
+
 </div>
 
        <div id="upload-section" class="stat-card" style="margin-bottom: 40px; display: none;">
@@ -705,7 +776,9 @@ body.focus-mode .player-bar {
         <span class="shortcut">del</span>
     </div>
 </div>
-<div id="focus-aura" class="focus-aura"></div>
-<script src="app.js" defer></script>
+
+<script src="shit.js">
+   
+</script>
 </body>
 </html>
