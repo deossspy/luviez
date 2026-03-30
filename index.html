@@ -529,6 +529,71 @@ body.focus-mode .search-container {
     from, to { opacity: 0; }
     50% { opacity: 1; }
 }
+
+.portal-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.portal-header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.upload-zone {
+    border: 2px dashed var(--glass-border);
+    background: var(--glass);
+    border-radius: 20px;
+    padding: 60px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 30px;
+}
+
+.upload-zone:hover {
+    border-color: #fff;
+    background: rgba(255,255,255,0.05);
+}
+
+.upload-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--accent-dim);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.input-group input, .input-group textarea {
+    width: 100%;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 15px;
+    border-radius: 10px;
+    color: #fff;
+    outline: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus, .input-group textarea:focus {
+    border-color: #fff;
+}
+
+.input-group textarea {
+    height: 100px;
+    resize: none;
+}
 /* Video Badge on the Cover */
 .video-badge {
     position: absolute;
@@ -577,6 +642,226 @@ body.focus-mode .search-container {
     color: var(--accent); /* If you have an accent color defined */
     margin-right: 4px;
 }
+/* --- STORE VIEW --- */
+.store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px; }
+.store-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); text-align: center; }
+.store-item:hover { transform: translateY(-8px); border-color: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.3); background: rgba(255,255,255,0.05); }
+.store-img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; margin-bottom: 16px; background: #111; }
+.store-name { font-weight: 600; font-size: 1.1rem; margin-bottom: 6px; }
+.store-price { color: #4ade80; font-family: monospace; font-size: 0.9rem; margin-bottom: 16px; }
+.buy-btn { background: #fff; color: #000; padding: 10px 16px; border-radius: 100px; border: none; cursor: pointer; font-weight: 600; font-size: 0.8rem; width: 100%; transition: 0.2s; }
+.buy-btn:hover { background: #4ade80; color: #000; transform: scale(1.05); }
+
+/* Update your existing .player-bar class transition if needed */
+.player-bar {
+    /* ... your existing styles ... */
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Replace the old minimized class with this see-through version */
+.player-bar.minimized {
+    transform: translateY(0); /* Don't drop it down anymore */
+    opacity: 1; /* Make it highly transparent */
+    backdrop-filter: blur(25px); /* Lessen the blur so it blends better */
+    transition-duration: 0.342s;
+}
+
+.player-bar.minimized:hover {
+    opacity: 1; /* Bring it right back to full visibility on hover */
+    backdrop-filter: blur(25px);
+}
+
+.cart-panel {
+    position: fixed; top: 0; right: -450px; width: 400px; height: 100vh;
+    background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(30px);
+    border-left: 1px solid var(--glass-border); z-index: 3000;
+    padding: 40px 30px; display: flex; flex-direction: column;
+    transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cart-panel.active { right: 0; box-shadow: -20px 0 50px rgba(0,0,0,0.5); }
+.cart-item { display: flex; gap: 15px; margin-bottom: 24px; align-items: center; }
+.cart-item img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; background: #111; border: 1px solid var(--glass-border); }
+.cart-item-info { flex-grow: 1; }
+.cart-item-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+.cart-item-price { font-size: 0.8rem; color: #4ade80; font-family: monospace; }
+
+
+
+.vlog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.vlog-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+.vlog-card:hover {
+    border-color: rgba(255,255,255,0.2);
+    transform: translateY(-5px);
+}
+
+.vlog-video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+}
+
+.vlog-video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+.vlog-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.vlog-card:hover .vlog-controls {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.vlog-vol-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vlog-vol-slider {
+    -webkit-appearance: none;
+    width: 60px;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 5px;
+    outline: none;
+}
+
+.vlog-vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.vlog-fs-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 0.2s;
+}
+
+.vlog-fs-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+.vlog-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #fff;
+    color: #000;
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.vlog-info {
+    padding: 20px;
+}
+
+.vlog-date {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--accent-dim);
+    margin-bottom: 8px;
+}
+
+.vlog-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.vlog-desc {
+    font-size: 0.85rem;
+    color: var(--accent-dim);
+    line-height: 1.5;
+}
+
+
+
+.network-container { max-width: 900px; }
+.network-label { 
+    font-size: 0.7rem; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    color: var(--accent-dim); 
+    margin: 40px 0 20px 0;
+}
+
+.network-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 15px; 
+}
+
+.network-card {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: 0.3s ease;
+}
+
+.network-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--accent-dim);
+}
+
+.main-card { border-left: 3px solid #fff; }
+
+.member-info h3 { font-size: 1.2rem; margin-bottom: 4px; letter-spacing: -0.5px; }
+.member-info p { font-size: 0.8rem; color: var(--accent-dim); margin-bottom: 20px; }
+
+.social-links { display: flex; gap: 15px; }
+.social-links a { 
+    font-family: monospace; 
+    font-size: 0.75rem; 
+    text-decoration: none; 
+    color: #fff; 
+    opacity: 0.6;
+    transition: 0.2s;
+}
+
+.social-links a:hover { opacity: 1; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -596,10 +881,18 @@ body.focus-mode .search-container {
     
 
     <ul class="nav-links">
-        <li id="li-library" class="active" onclick="showView('library')">library</li>
-        <li id="li-collections" onclick="showView('collections')">collections</li>
-        <li id="nav-upload" class="hidden" onclick="toggleUploadCard()">new upload</li>
-    </ul>
+    <li id="li-library" class="active" onclick="showView('library')">library</li>
+    <li id="li-collections" onclick="showView('collections')">collections</li>
+    <li id="li-store" onclick="showView('store')">store</li>
+    <li id="li-vlogs" onclick="showView('vlogs')">vlogs</li>
+    <li id="li-portal" onclick="showView('portal')">portal [wip]</li>
+    <li id="li-network" onclick="showView('network')">network</li>
+    <li id="nav-cart" onclick="toggleCart()" style="margin-top: 10px; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+    cart [<span id="cart-count" style="color:#fff">0</span>]
+</li>
+   <li id="nav-upload" class="hidden" onclick="showView('upload-master')">new upload</li>
+</ul>
+
     
     <div style="margin-bottom: 20px; padding-top: 20px; opacity: 0.3; font-family: monospace; font-size: 0.6rem;">
     <div>[SPACE] PLAY/PAUSE</div>
@@ -623,7 +916,50 @@ body.focus-mode .search-container {
             <span style="font-size: 0.7rem; color: #4ade80;">● studio online</span>
         </div>
     </header>
-    
+    <section id="view-upload-master" class="view-section">
+    <div class="portal-container" style="max-width: 700px;">
+        <div class="portal-header">
+            <h2 style="font-weight: 800; font-size: 1.5rem; letter-spacing: -1px;">new upload</h2>
+            <p style="color: var(--accent-dim); margin-top: 10px;">upload audio, cover art, and session data to the cloud.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+            <div class="upload-zone" onclick="document.getElementById('admin-file-input').click()">
+                <div class="upload-icon">🎵</div>
+                <p id="admin-upload-text">select audio (.mp3 / .wav)</p>
+                <input type="file" id="admin-file-input" hidden accept="audio/*">
+            </div>
+
+            <div class="upload-zone" onclick="document.getElementById('admin-img-input').click()">
+                <div class="upload-icon">🖼️</div>
+                <p id="admin-img-text">select cover art (.jpg / .png)</p>
+                <input type="file" id="admin-img-input" hidden accept="image/*">
+            </div>
+        </div>
+
+        <div class="portal-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="input-group">
+                    <label>track title</label>
+                    <input type="text" id="up-title" placeholder="song name">
+                </div>
+                <div class="input-group">
+                    <label>artist / collab</label>
+                    <input type="text" id="up-artist" placeholder="(no fts no need to fill)">
+                </div>
+            </div>
+
+            <div class="input-group">
+    <label>date recorded</label>
+    <input type="text" id="up-date" placeholder="e.g. march 2026">
+</div>
+
+<button class="primary-cta" id="master-upload-btn" onclick="handleMasterUpload(event)">
+    initialize cloud transfer
+</button>
+        </div>
+    </div>
+</section>
 <section id="view-collections" class="view-section">
     <div class="collection-grid">
         <div class="crate-card" onclick="filterByTag('master')">
@@ -658,7 +994,162 @@ body.focus-mode .search-container {
     </div>
 </section>
 
-   
+<section id="view-network" class="view-section">
+    <div class="network-container">
+        
+        <h2 class="network-label">the team</h2>
+        <div class="network-grid">
+            <div class="network-card main-card">
+                <div class="member-info">
+                    <h3>luviez</h3>
+                    <p>artist | comedian</p>
+                </div>
+                <div class="social-links">
+                    <a href="https://instagram.com/__withdrawl" target="_blank">instagram</a>
+                    <a href="" target="_blank">discord [llluviez]</a>
+                </div>
+            </div>
+
+            <div class="network-card main-card">
+                <div class="member-info">
+                    <h3>deo</h3>
+                    <p>producer | developer of this site</p>
+                </div>
+                <div class="social-links">
+                    <a href="https://instagram.com/jumpoutsenpai" target="_blank">instagram</a>
+                    <a href="" target="_blank">discord [diorbracelet]</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="network-label">the collective</h2>
+        <div class="network-grid">
+            <div class="network-card">
+                <div class="member-info">
+                    <h3>deo / luviez</h3>
+                    <p>engineers</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" target="_blank">ig</a>
+                    <a href="#" target="_blank">tw</a>
+                </div>
+            </div>
+
+            <div class="network-card">
+                <div class="member-info">
+                    <h3>deo / luviez</h3>
+                    <p>visual designers</p>
+                </div>
+                <div class="social-links">
+                    <a href="#" target="_blank">ig</a>
+                    <a href="#" target="_blank">site</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<section id="view-portal" class="view-section">
+    <div class="portal-container">
+        <div class="portal-header">
+            <h2 style="font-weight: 800; font-size: 1.5rem; letter-spacing: -1px;">secure file drop</h2>
+            <p style="color: var(--accent-dim); margin-top: 10px;">send stems, demos, or vocal takes directly to the studio.</p>
+        </div>
+
+        <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <div class="upload-icon">↑</div>
+            <p id="upload-text">drag files here or click to browse</p>
+            <input type="file" id="file-input" hidden multiple>
+        </div>
+
+        <div class="portal-form">
+            <div class="input-group">
+                <label>your name / alias</label>
+                <input type="text" id="sender-name" placeholder="anonymous">
+            </div>
+            <div class="input-group">
+                <label>message / bpm / key</label>
+                <textarea id="sender-msg" placeholder="notes for the engineer..."></textarea>
+            </div>
+            <button class="primary-cta" onclick="submitPortal()">initialize transfer</button>
+        </div>
+    </div>
+</section>
+
+<section id="view-store" class="view-section">
+    <div class="store-grid">
+        
+        <div class="store-item">
+            <img src="preset.png" class="store-img" alt="Product Image">
+            <div class="store-name">luviez preset kit vol. 1</div>
+            <div class="store-price">$9.99</div>
+            <button class="buy-btn" onclick="window.open('https://buy.stripe.com/dRm3cudfK2kPgBceCd4c803', '_blank')">purchase</button>
+            <button style="margin-top: 10px;" class="buy-btn" onclick="addToCart('luviez preset kit vol. 1', 9.99, 'preset.png')">add to cart</button>
+        </div>
+    
+
+    </div>
+</section>
+   <div id="cart-panel" class="cart-panel">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2 style="font-weight: 300;">your cart</h2>
+        <button class="action-btn" onclick="toggleCart()">✕</button>
+    </div>
+    <div id="cart-items" style="flex-grow: 1; overflow-y: auto;"></div>
+    <div style="border-top: 1px solid var(--glass-border); padding-top: 20px; margin-top: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 1.1rem;">
+            <span style="color: var(--accent-dim);">total</span>
+            <span id="cart-total" style="font-weight: 800; font-family: monospace;">$0.00</span>
+        </div>
+        <button class="primary-cta" onclick="checkout()">proceed to checkout</button>
+    </div>
+</div>
+
+<section id="view-vlogs" class="view-section">
+    <div class="vlog-grid">
+        <div class="vlog-card">
+            <div class="vlog-video-container">
+                <video src="https://luviez.vercel.app/x1vid.mp4" loop playsinline onclick="toggleVlogPlay(this)"></video>
+                
+                <div class="vlog-controls">
+                    <div class="vlog-vol-container">
+                        <input type="range" class="vlog-vol-slider" min="0" max="1" step="0.1" value="0" oninput="setVlogVolume(this)">
+                    </div>
+                    <button class="vlog-fs-btn" onclick="toggleVlogFullscreen(this)">⛶</button>
+                </div>
+
+                <div class="vlog-badge">NEW</div>
+            </div>
+            <div class="vlog-info">
+                <div class="vlog-date">february 19, 2026</div>
+                <div class="vlog-title">late night session @ studio b</div>
+                <div class="vlog-desc">made VVV during this session.</div>
+            </div>
+        </div>
+
+
+
+        <div class="vlog-card">
+            <div class="vlog-video-container">
+                <video src="https://luviez.vercel.app/xvid2.mov" loop playsinline onclick="toggleVlogPlay(this)"></video>
+                
+                <div class="vlog-controls">
+                    <div class="vlog-vol-container">
+                        <input type="range" class="vlog-vol-slider" min="0" max="1" step="0.1" value="0" oninput="setVlogVolume(this)">
+                    </div>
+                    <button class="vlog-fs-btn" onclick="toggleVlogFullscreen(this)">⛶</button>
+                </div>
+
+                <div class="vlog-badge">NEW</div>
+            </div>
+            <div class="vlog-info">
+                <div class="vlog-date">november 27, 2025</div>
+                <div class="vlog-title">she didnt take her plan b, im a father now...</div>
+                <div class="vlog-desc">i am now a father, and i couldnt be more disappointed.</div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <section id="view-library" class="view-section active">
          <div id="stats-dash" class="stats-grid hidden">
@@ -777,8 +1268,8 @@ body.focus-mode .search-container {
     </div>
 </div>
 
-<script src="shit.js">
-   
+<script src="google.js">
+
 </script>
 </body>
 </html>
